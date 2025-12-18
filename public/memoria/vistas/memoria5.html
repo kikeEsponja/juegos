@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../assets/cards.png" type="image/x-icon">
+    <link rel="stylesheet" href="../estilos/juego.css">
+    <title>Juego-Memoria</title>
+</head>
+<body>
+    <center>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Instrucciones</h1>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Nivel de dificultad 5:</h3>
+                        <h4>Todavía tienes 20 movimientos disponibles, pero ahora el límite es de 20 segundos para completar el reto.</h4>
+                        <h2>Suerte! 😎</h2>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn botones" data-bs-dismiss="modal" id="iniciar_tiempo">Entendido!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h1>MEMORIA</h1>
+        <div id="juego" class="juego">
+            <div class="info">
+                <h4>Puntos: <span id="puntos"></span></h4>
+            </div>
+            <div id="carcasa" class="carcasa">
+                <div id="ganador" class="ganador"><img src="../assets/emoji-nerd-svgrepo-com.svg" alt="ganador"></div>
+                <div id="perdedor" class="perdedor"><img src="../assets/emoji-sick-svgrepo-com.svg" alt="perdedor"></div>
+            </div>
+            <div class="information" id="information">
+                <div class="info">
+                    <h4>Aciertos: <span id="aciertos"></span></h4>
+                </div>
+                <div class="info">
+                    <h4>tiempo: <span id="tiempo"></span></h4>
+                </div>
+                <div class="info">
+                    <h4>Movimientos: <span id="movimientos"></span></h4>
+                </div>
+                <button id="comenzar" class="comenzar" data-bs-toggle="modal" data-bs-target="#exampleModal">Comenzar</button>
+                <button id="repetir" class="botones">Reiniciar</button>
+                <button id="nivel_4" class="botones">Nivel 4</button>
+                <button id="inicio" class="botones">Inicio</button>
+            </div>
+        </div>
+    </center>
+    <script>
+        let urlSiguiente = './memoria6.html';
+        let urlAnterior = './memoria4.html';
+        
+        const CONFIG = {
+            movimientos: 20,
+            puntosPorAcierto: 300,
+            segundos: 20,
+            cantidadDeCartas: [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6],
+            nivelAnterior: document.getElementById('nivel_4'),
+            textoNivelAnterior: 'Nivel 4',
+            urlNivelAnterior: urlAnterior,
+            textoNivelSiguiente: 'Nivel 6',
+            urlNivelSiguiente: urlSiguiente,
+            aciertos: 6,
+        }
+    </script>
+    <script src="../logica/juego.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../assets/cards.png" type="image/x-icon">
+    <title>FINAL</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            background: #000;
+            overflow: hidden;
+            color: #ff0;
+            font-family: 'Courier New', Courier, monospace;
+            perspective: 800px;
+        }
+        .contenedor-creditos{
+            position: absolute;
+            top: 100dvh;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            justify-content: center;
+            transform-origin: 50% 100%;
+            animation: scroll 35s linear forwards;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 500;
+        }
+        .texto-creditos{
+            width: 60%;
+            text-align: center;
+            transform: rotateX(25deg);
+            font-size: 2rem;
+            line-height: 2.5rem;
+        }
+        @keyframes scroll{
+            0% { top: 100dvh; }
+            100% { top: -350dvh; }
+        }
+        .titulo{
+            font-size: 3rem;
+            margin-bottom: 2rem;
+        }
+        #salir{
+            position: relative;
+            width: 200px;
+            height: 40px;
+            background: coral;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1500;
+        }
+    </style>
+</head>
+<audio id="musicaFinal" src="../assets/sonidos/final.mp3" autoplay loop></audio>
+<body>
+    <div class="contenedor-creditos">
+        <div class="texto-creditos">
+            <div class="titulo">BIEN HECHO!</div>
+            <p>Tu memoria ha sido puesta a prueba.</p>
+            <p>Has sobrevivido a 10 niveles de pura adrenalina nerd.</p>
+            <p>Has demostrado más resistencia que un SNES sin soplar el cartucho.</p>
+            <br><br>
+            <p>Ahora…</p>
+            <p>Es momento de cerrar sesión,</p>
+            <p>apagar la mente,</p>
+            <p>y dejar que tus neuronas descansen.</p>
+            <br><br>
+            <p>★ PRODUCCIÓN ★</p>
+            <p>HTML puro y simple</p>
+            <p>CSS con animaciones y demás</p>
+            <p>JavaScript corriendo sin dormir</p>
+            <p>Un montón de funciones anónimas llorando</p>
+            <br><br>
+            <p>★ DIRECCIÓN GENERAL ★</p>
+            <p>KikeEsponja — Maestro de los clics veloces</p>
+            <p>ChatGPT — Compañera traviesa del código</p>
+            <br><br>
+            <p>★ AGRADECIMIENTOS ESPECIALES ★</p>
+            <p>A todos los nintendos viejos que nos dieron infancia</p>
+            <p>Y a los cartuchos que soplamos con fe</p>
+            <br><br>
+            <p>★ MENSAJE FINAL ★</p>
+            <p>Anda a dormir, campeón.</p>
+            <p>Mañana hay más bugs que derrotar.</p>
+            <br><br>
+            <p>FIN</p>
+        </div>
+    </div>
+    <button type="button" id="salir">Salir</button>
+    
+
+    <script>
+        let salir = document.getElementById('salir');
+        salir.addEventListener('click', ()=>{
+            window.location.href = '../index.html';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/cards.png" type="image/x-icon">
+    <link rel="stylesheet" href="memoria/estilos/juego.css">
+    <title>Juego-Memoria</title>
+</head>
+<body>
+    <center>
+        <h1>JUEGOS</h1>
+        <div id="juego" class="juego">
+            <div id="carcasa" class="carcasa">
+                <button type="button" id="memoria" class="botones">Memoria</button>
+                <button type="button" id="ppt" class="botones">Piedra, papel y tijeras</button>
+            </div>
+        </div>
+    </center>
+    <script>
+        let memoria = document.getElementById('memoria');
+
+        memoria.addEventListener('click', ()=>{
+            //window.location.href = 'https://memoria-rdny.onrender.com/memoria/vistas/memoria.html';
+            window.location.href = 'http://localhost:3000/memoria/vistas/memoria.html';
+        });
+
+        let ppt = document.getElementById('ppt');
+
+        ppt.addEventListener('click', ()=>{
+            //window.location.href = 'https://memoria-rdny.onrender.com/ppt/ppt.html';
+            window.location.href = 'http://localhost:3000/ppt/ppt.html';
+        });
+    </script>
+ 
+</body>
+</html>
