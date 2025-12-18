@@ -69,18 +69,18 @@ io.on('connection', (socket) =>{
             const e1 = partida.jugadas[j1];
             const e2 = partida.jugadas[j2];
 
-            const resultado = decidirGanador(e1, e2);
+            const r = decidirGanador(e1, e2);
 
             io.to(j1).emit('resultado', {
                 tuJugada: e1,
                 rival: e2,
-                resultado: resultado === 1 ? 'GANASTE' : resultado === 0 ? 'EMPATE' : 'PERDISTESSS'
+                resultado: r === 1 ? 'GANASTE' : resultado === 0 ? 'EMPATE' : 'PERDISTESSS'
             });
 
             io.to(j2).emit('resultado', {
                 tuJugada: e2,
                 rival: e1,
-                resultado: resultado === 2 ? 'GANASTE' : resultado === 0 ? 'EMPATE' : 'PERDISTESSS'
+                resultado: r === 2 ? 'GANASTE' : resultado === 0 ? 'EMPATE' : 'PERDISTESSS'
             });
 
             partida.jugadas = {};
