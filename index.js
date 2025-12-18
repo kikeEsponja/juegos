@@ -65,7 +65,7 @@ io.on('connection', (socket) =>{
         console.log(`🎮 ${socket.id} eligió: `, eleccion);
 
         if(Object.keys(partida.jugadas).length === 2){
-            const [j1, j2] = Object.keys(jugadas);
+            const [j1, j2] = Object.keys(partida.jugadas);
             const e1 = jugadas[j1];
             const e2 = jugadas[j2];
 
@@ -85,7 +85,7 @@ io.on('connection', (socket) =>{
 
             partida.jugadas = {};
             partida.yaJugo = {};
-            io.to(socket.room).emit('nueva ronda');
+            io.to(socket.room).emit('nueva-ronda');
         }
 
     });

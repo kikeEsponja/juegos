@@ -82,8 +82,18 @@ function start(){
         
             alert(data.resultado);
         
+            //yaJugo = false;
+            //botones.forEach(b => b.disabled = false);
+        });
+
+        socket.on('nueva-ronda', () =>{
+            console.log('Nueva ronda');
             yaJugo = false;
             botones.forEach(b => b.disabled = false);
+        });
+
+        socket.on('inicio', ({ rival }) =>{
+            console.log('tu rival es: ', rival);
         });
         /*let cartasBarajadas = cartas.sort(() => Math.random() - 0.5);
 
