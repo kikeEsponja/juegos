@@ -16,7 +16,8 @@ app.get('/', (req, res) =>{
     res.sendFile(join(__dirname, '/public/ppt.html'));
 });
 
-let jugadores = [];
+//let jugadores = [];
+let partidas = {};
 let jugadas = {};
 let yaJugo = {};
 let cola = [];
@@ -43,23 +44,27 @@ io.on('connection', (socket) =>{
         jugador2.emit('inicio', { rival: jugador1.id });
 
         console.log(`🏟️ Partida creada: ${room}`);
+
+        partidas[room] = {
+            jugadas: {},
+            yaJugo: {}
+        };
     }
 
-    jugadores.push(socket.id);
+    //jugadores.push(socket.id);
 
     socket.on('jugada', (eleccion) =>{
-        if(!socket.room) return;
+        const partida = partidas[socket.room];
+        if(!partida) return;
 
-        if(yaJugo[socket.id]){
-            console.log('Jugada ignorada de', socket.id);
-            return;
-        }
-        yaJugo[socket.id] = true;
-        jugadas[socket.id] = eleccion;
+        if(partida.yaJugo[socket.id]) return;
+
+        partida.yaJugo[socket.id] = true;
+        partida.jugadas[socket.id] = eleccion;
 
         console.log(`🎮 ${socket.id} eligió: `, eleccion);
 
-        if(Object.keys(jugadas).length === 2){
+        if(Object.keys(partida.jugadas).length === 2){
             const [j1, j2] = Object.keys(jugadas);
             const e1 = jugadas[j1];
             const e2 = jugadas[j2];
@@ -78,8 +83,9 @@ io.on('connection', (socket) =>{
                 resultado: resultado === 2 ? 'GANASTE' : resultado === 0 ? 'EMPATE' : 'PERDISTESSS'
             });
 
-            jugadas = {};
-            yaJugo = {};
+            partida.jugadas = {};
+            partida.yaJugo = {};
+            io.to(socket.room).emit('nueva ronda');
         }
 
     });
