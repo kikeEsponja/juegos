@@ -66,8 +66,8 @@ io.on('connection', (socket) =>{
 
         if(Object.keys(partida.jugadas).length === 2){
             const [j1, j2] = Object.keys(partida.jugadas);
-            const e1 = jugadas[j1];
-            const e2 = jugadas[j2];
+            const e1 = partida.jugadas[j1];
+            const e2 = partida.jugadas[j2];
 
             const resultado = decidirGanador(e1, e2);
 
@@ -93,7 +93,9 @@ io.on('connection', (socket) =>{
     socket.on('disconnect', () =>{
         console.log('💀 jugador desconectado', socket.id);
         cola = cola.filter(s => s.id !== socket.id);
-        delete jugadas[socket.id];
+        if(socket.room && partidas[socket.room]){
+            delete partidas[socket.room];
+        }
     });
 });
 
