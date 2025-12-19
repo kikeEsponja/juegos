@@ -9,7 +9,7 @@ repetir.addEventListener('click', ()=>{
 /* ****************************** BOTÓN PARA IR A INDEX ************************************/
 let inicio = document.getElementById('inicio');
 inicio.addEventListener('click', ()=>{
-    window.location.href = 'https://juegos-l9bi.onrender.com/';
+    window.location.href = 'https://memoria-rdny.onrender.com/';
     //window.location.href = 'http://localhost3000';
 });
 
@@ -82,18 +82,8 @@ function start(){
         
             alert(data.resultado);
         
-            //yaJugo = false;
-            //botones.forEach(b => b.disabled = false);
-        });
-
-        socket.on('nueva-ronda', () =>{
-            console.log('Nueva ronda');
             yaJugo = false;
             botones.forEach(b => b.disabled = false);
-        });
-
-        socket.on('inicio', ({ rival }) =>{
-            console.log('tu rival es: ', rival);
         });
         /*let cartasBarajadas = cartas.sort(() => Math.random() - 0.5);
 

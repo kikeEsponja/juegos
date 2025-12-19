@@ -14,6 +14,7 @@
             <div id="carcasa" class="carcasa">
                 <button type="button" id="memoria" class="botones">Memoria</button>
                 <button type="button" id="ppt" class="botones">Piedra, papel y tijeras</button>
+                <button type="button" id="pong" class="botones">PONG</button>
             </div>
         </div>
     </center>
@@ -21,15 +22,22 @@
         let memoria = document.getElementById('memoria');
 
         memoria.addEventListener('click', ()=>{
-            window.location.href = 'https://juegos-l9bi.onrender.com/memoria/vistas/memoria.html';
-            //window.location.href = 'http://localhost:3000/memoria/vistas/memoria.html';
+            //window.location.href = 'https://memoria-rdny.onrender.com/memoria/vistas/memoria.html';
+            window.location.href = 'http://localhost:3000/memoria/vistas/memoria.html';
         });
 
         let ppt = document.getElementById('ppt');
 
         ppt.addEventListener('click', ()=>{
-            window.location.href = 'https://juegos-l9bi.onrender.com/ppt/ppt.html';
-            //window.location.href = 'http://localhost:3000/ppt/ppt.html';
+            //window.location.href = 'https://memoria-rdny.onrender.com/ppt/ppt.html';
+            window.location.href = 'http://localhost:3000/ppt/ppt.html';
+        });
+
+        let pong = document.getElementById('pong');
+
+        pong.addEventListener('click', ()=>{
+            //window.location.href = 'https://memoria-rdny.onrender.com/ppt/ppt.html';
+            window.location.href = 'https://pong-2k0v.onrender.com';
         });
     </script>
  
