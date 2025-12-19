@@ -102,10 +102,11 @@ io.on('connection', (socket) =>{
 function decidirGanador(a, b){
     if(a === b) return 0;
 
-    if((a === 'piedra' && b === 'tijeras') || (a === 'tijeras' && b === 'papel') || (a === 'papel' && b === 'piedra')){
+    if((a === 'Piedra' && b === 'Tijeras') || (a === 'Tijeras' && b === 'Papel') || (a === 'Papel' && b === 'Piedra')){
         return 1;
+    }else{
+        return 2;
     }
-    return 2;
 }
 
 server.listen(3000, ()=>{
