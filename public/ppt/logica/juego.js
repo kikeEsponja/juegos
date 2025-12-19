@@ -9,7 +9,7 @@ repetir.addEventListener('click', ()=>{
 /* ****************************** BOTÓN PARA IR A INDEX ************************************/
 let inicio = document.getElementById('inicio');
 inicio.addEventListener('click', ()=>{
-    window.location.href = 'https://memoria-rdny.onrender.com/';
+    window.location.href = 'https://juegos-l9bi.onrender.com/';
     //window.location.href = 'http://localhost3000';
 });
 
