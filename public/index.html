@@ -6,15 +6,48 @@
     <link rel="shortcut icon" href="assets/cards.png" type="image/x-icon">
     <link rel="stylesheet" href="memoria/estilos/juego.css">
     <title>Juego-Memoria</title>
+    <style>
+        .botones_index{
+            margin: 1%;
+            color: #fff;
+            cursor: pointer;
+        }
+        .botones_index > div{
+            width: 250px;
+            height: 250px;
+        }
+        .botones_index > div > img{
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
     <center>
         <h1>JUEGOS</h1>
         <div id="juego" class="juego">
             <div id="carcasa" class="carcasa">
-                <button type="button" id="memoria" class="botones">Memoria</button>
-                <button type="button" id="ppt" class="botones">Piedra, papel y tijeras</button>
-                <button type="button" id="pong" class="botones">PONG</button>
+                <div type="button" id="memoria" class="botones_index">
+                    <div>
+                        <img src="./imagenes/memoria.jpg" alt="">
+                    </div>
+                    
+                    <h3>Memoria</h3>
+                </div>
+                <div type="button" id="ppt" class="botones_index">
+                    <div>
+                        <img src="./imagenes/ppt.jpg" alt="">
+                    </div>
+                    
+                    <h3>Piedra, papel y tijeras</h3>
+                </div>
+                <div type="button" id="pong" class="botones_index">
+                    <div>
+                        <img src="./imagenes/pong.jpg" alt="">
+                    </div>
+                    
+                    <h3>PONG</h3>
+                </div>
             </div>
         </div>
     </center>
@@ -22,15 +55,15 @@
         let memoria = document.getElementById('memoria');
 
         memoria.addEventListener('click', ()=>{
-            //window.location.href = 'https://memoria-rdny.onrender.com/memoria/vistas/memoria.html';
-            window.location.href = 'http://localhost:3000/memoria/vistas/memoria.html';
+            window.location.href = 'https://memoria-rdny.onrender.com/memoria/vistas/memoria.html';
+            //window.location.href = 'http://localhost:3000/memoria/vistas/memoria.html';
         });
 
         let ppt = document.getElementById('ppt');
 
         ppt.addEventListener('click', ()=>{
-            //window.location.href = 'https://memoria-rdny.onrender.com/ppt/ppt.html';
-            window.location.href = 'http://localhost:3000/ppt/ppt.html';
+            window.location.href = 'https://memoria-rdny.onrender.com/ppt/ppt.html';
+            //window.location.href = 'http://localhost:3000/ppt/ppt.html';
         });
 
         let pong = document.getElementById('pong');
