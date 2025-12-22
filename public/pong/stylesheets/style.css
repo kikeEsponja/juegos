@@ -35,7 +35,7 @@ a {
 /* Large Smartphone (Vertical) */
 @media screen and (max-width: 500px) {
   #canvas {
-    width: 95%;
+    width: 75%;
     height: 95dvh;
     margin-top: 50px;
   }
