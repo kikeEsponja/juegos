@@ -98,11 +98,19 @@ h1{
     width: 150px;
     height: 150px;
     background: white;
-    border-radius: 5px;
+    border-radius: 10px;
     margin: 1%;
 }
 .ficha > img{
     width: 100%;
+    border-radius: 10px;
+}
+.ficha > img:hover{
+    cursor: pointer;
+    color: transparent;
+    width: 102%;
+    height: 102%;
+    transition: 0.5s ease;
 }
 .dato{
     color: transparent;
@@ -118,13 +126,6 @@ h1{
 }
 .invisible{
     opacity:0;
-}
-.ficha > img:hover{
-    background: aquamarine;
-    cursor: pointer;
-    color: transparent;
-    width: 101%;
-    height: 101%;
 }
 .descubierta{
     width: 100%;
@@ -226,6 +227,9 @@ h1{
     .contenedor-ficha, .ficha{
         width: 100px;
         height: 100px;
+    }
+    .ppt_ficha{
+        font-size: 100%;
     }
 }
 @media(max-width: 825px){

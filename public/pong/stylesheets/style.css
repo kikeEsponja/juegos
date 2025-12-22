@@ -13,6 +13,7 @@ a {
 }
 
 #canvas {
+  height: 100dvh;
   border-radius: 20px;
   margin-top: 25px;
   z-index: 10;
@@ -26,16 +27,16 @@ a {
 
 /* Montior and Larger */
 @media screen and (min-width: 1800px) {
-  canvas {
+  #canvas {
     margin-top: 100px;
   }
 }
 
 /* Large Smartphone (Vertical) */
 @media screen and (max-width: 500px) {
-  canvas {
-    width: 100%;
-    height: 700px;
+  #canvas {
+    width: 95%;
+    height: 95dvh;
     margin-top: 50px;
   }
 }

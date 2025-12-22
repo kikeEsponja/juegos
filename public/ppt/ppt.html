@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="assets/imagenes/cards.png" type="image/x-icon">
     <link rel="stylesheet" href="estilos/juego.css">
     <title>Juego-Memoria</title>
-    <style>
+    <!--<style>
         .ppt_fichas{
             font-size: 80px;
             cursor: pointer;
@@ -15,7 +15,15 @@
             font-size: 110px;
             transition: 0.5s ease;
         }
-    </style>
+        @media(max-width: 990px){
+            .ppt_fichas{
+                font-size: 70px;
+            }
+            .ppt_fichas:hover{
+                font-size: 90px;
+            }
+        }
+    </style>-->
 </head>
 <body>
     <center>
@@ -44,16 +52,16 @@
             </div>
             <div id="carcasa" class="carcasa">
                 <button data-jugada="Piedra" class="ficha">
-                    <h2 class="ppt_fichas">🪨</h2>
-                    <!--<img src="assets/imagenes/stone-rock-svgrepo-com.svg" alt="Piedra">-->
+                    <!--<h2 class="ppt_fichas">🪨</h2>-->
+                    <img src="assets/imagenes/piedra.jpg" class="ppt_fichas" alt="Piedra">
                 </button>
                 <button data-jugada="Tijeras" class="ficha">
-                    <h2 class="ppt_fichas">✂️</h2>
-                    <!--<img src="assets/imagenes/scissors-svgrepo-com.svg" alt="Tijeras">-->
+                    <!--<h2 class="ppt_fichas">✂️</h2>-->
+                    <img src="assets/imagenes/tijera.jpg" class="ppt_fichas" alt="Tijeras">
                 </button>
                 <button data-jugada="Papel" class="ficha">
-                    <h2 class="ppt_fichas">📄</h2>
-                    <!--<img src="assets/imagenes/paper-svgrepo-com.svg" alt="Papel">-->
+                    <!--<h2 class="ppt_fichas">📄</h2>-->
+                    <img src="assets/imagenes/papel.jpg" class="ppt_fichas" alt="Papel">
                 </button>
                 <div id="ganador" class="ganador"><img src="assets/imagenes/emoji-nerd-svgrepo-com.svg" alt="ganador"></div>
                 <div id="perdedor" class="perdedor"><img src="assets/imagenes/emoji-sick-svgrepo-com.svg" alt="perdedor"></div>
