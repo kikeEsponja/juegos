@@ -6,6 +6,16 @@
     <link rel="shortcut icon" href="assets/imagenes/cards.png" type="image/x-icon">
     <link rel="stylesheet" href="estilos/juego.css">
     <title>Juego-Memoria</title>
+    <style>
+        .ppt_fichas{
+            font-size: 80px;
+            cursor: pointer;
+        }
+        .ppt_fichas:hover{
+            font-size: 110px;
+            transition: 0.5s ease;
+        }
+    </style>
 </head>
 <body>
     <center>
@@ -18,6 +28,7 @@
                     </div>
                     <div class="modal-body">
                         <h3>Tienes UN movimiento por turno. Tu rival no sabrá qué botón tocaste, ni tú sabrás cuál tocó él (¿sí sabes jugar a Piedra, Papel y Tijeras, verdad?).</h3>
+                        <h3>Toca el botón "comenzar"</h3>
                         <h2>Suerte! 😎</h2>
                     </div>
                     <div class="modal-footer">
@@ -33,19 +44,19 @@
             </div>
             <div id="carcasa" class="carcasa">
                 <button data-jugada="Piedra" class="ficha">
-                    <!--<h2>🪨</h2>-->
-                    <img src="assets/imagenes/stone-rock-svgrepo-com.svg" alt="Piedra">
+                    <h2 class="ppt_fichas">🪨</h2>
+                    <!--<img src="assets/imagenes/stone-rock-svgrepo-com.svg" alt="Piedra">-->
                 </button>
                 <button data-jugada="Tijeras" class="ficha">
-                    <!--<h2>📄</h2>-->
-                    <img src="assets/imagenes/scissors-svgrepo-com.svg" alt="Tijeras">
+                    <h2 class="ppt_fichas">✂️</h2>
+                    <!--<img src="assets/imagenes/scissors-svgrepo-com.svg" alt="Tijeras">-->
                 </button>
                 <button data-jugada="Papel" class="ficha">
-                    <!--<h2>✂️</h2>-->
-                    <img src="assets/imagenes/paper-svgrepo-com.svg" alt="Papel">
+                    <h2 class="ppt_fichas">📄</h2>
+                    <!--<img src="assets/imagenes/paper-svgrepo-com.svg" alt="Papel">-->
                 </button>
-                <div id="ganador" class="ganador"><img src="assets/emoji-nerd-svgrepo-com.svg" alt="ganador"></div>
-                <div id="perdedor" class="perdedor"><img src="assets/emoji-sick-svgrepo-com.svg" alt="perdedor"></div>
+                <div id="ganador" class="ganador"><img src="assets/imagenes/emoji-nerd-svgrepo-com.svg" alt="ganador"></div>
+                <div id="perdedor" class="perdedor"><img src="assets/imagenes/emoji-sick-svgrepo-com.svg" alt="perdedor"></div>
             </div>
             <div class="information" id="information">
                 <div class="info">
