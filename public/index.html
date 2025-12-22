@@ -30,12 +30,40 @@
         .logo{
             width: 10%;
         }
+        @media(max-width: 1000px){
+            .logo{
+                width: 15%;
+            }
+        }
+        @media(max-width: 750px){
+            .nav{
+                display: flex;
+                justify-content: space-around;
+            }
+        }
+        @media(max-width: 750px){
+            .logo{
+                width: 20%;
+            }
+        }
+        @media(max-width: 550px){
+            .botones_index{
+                display: flex;
+                flex-direction: column-reverse;
+            }
+            .logo{
+                width: 25%;
+            }
+        }
     </style>
 </head>
 <body>
     <center>
-        <img class="logo" src="./imagenes/logoSFondo.png" alt="logo">
-        <h1>JUEGOS</h1>
+        <div class="nav">
+            <img class="logo" src="./imagenes/logoSFondo.png" alt="logo">
+            <h1>JUEGOS</h1>
+        </div>
+        
         <div id="juego" class="juego">
             <div id="carcasa" class="carcasa">
                 <div type="button" id="memoria" class="botones_index">
