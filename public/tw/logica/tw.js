@@ -38,13 +38,19 @@ comenzar.addEventListener('click', ()=>{
     socket.emit('join-21');
     comenzar.disabled = true;
     comenzar.innerText = 'Buscando partida...';
+    start();
 });
 
-socket.on('inicio-partida', () =>{
-    estadoDisplay.innerText = 'Partida iniciada';
-    zonaJugador.innerHTML = '';
-    puntosDisplay.innerText = '0';
-});
+function start(){
+    socket.on('inicio-partida', () =>{
+        estadoDisplay.innerText = 'Partida iniciada';
+        zonaJugador.innerHTML = '';
+        puntosDisplay.innerText = '0';
+        btnPedir.disabled = false;
+        btnPlantarse.disabled = false;
+        comenzar.innerText = 'En una partida'
+    });
+}
 
 socket.on('recibir-carta', (data) =>{
     const nuevaCarta = document.createElement('div');

@@ -61,10 +61,19 @@ export function initTW(io, socket) {
 
         if (jugador.puntos > 21) {
             partida.finalizada = true;
+
+            const rival = partida.jugadores.A.id === socket.id ? partida.jugadores.B : partida.jugadores.A;
+
             io.to(room).emit('resultado', {
-                mensaje: '💥 Te pasaste de 21',
+                mensaje: '💥 Te pasaste de 21. Has perdido',
                 misPuntos: jugador.puntos,
-                puntosRival: jugador.puntos //DEVOLVER A CERO SI FALLA
+                puntosRival: `Rival gana con ${rival.puntos}` //DEVOLVER A CERO SI FALLA o jugador.puntos
+            });
+
+            io.to(rival.id).emit('resultado', {
+                mensaje: 'Tu rival se pasó de 21. GANASTE',
+                misPuntos: rival.puntos,
+                puntosRival: jugador.puntos
             });
         }
     });
