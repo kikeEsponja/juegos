@@ -53,7 +53,7 @@ function mostrarBonus(cantidad){
 
 /* ****************************** FUNCIÓN QUE INICIA EL JUEGO ************************************/
 const botones = document.querySelectorAll('button[data-jugada]');
-const socket = io();
+const socket = io('/ppt'); // DEJA EL PARÉNTESIS VACÍO SI DEJA DE FUNCIONAR
 let yaJugo = false;
 
 socket.on('resultado', (data) =>{

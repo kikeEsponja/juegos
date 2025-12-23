@@ -21,7 +21,8 @@ app.get('/', (req, res) =>{
 
 io.on('connection', (socket) => {
     socket.on('join-ppt', () => initPPT(io, socket));
-    socket.on('join-tw', () => initTW(io, socket));
+    console.log('Socket conectado');
+    initTW(io, socket);
 });
 
 initPong(io);

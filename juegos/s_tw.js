@@ -1,162 +1,138 @@
-let partidas = {};
 let cola = [];
+let partidas = {};
 
-/*let partidas[room] = {
-    mazo: [],
-    jugadores: {
-        A: { id: jugador1.id, cartas: [], puntos: 0, plantado: false },
-        B: { id: jugador2.id, cartas: [], puntos: 0, plantado: false }
-    },
-    Turno: 'A',
-    finalizada: false
-};*/
-
-function crearMazo(){
-    const mazo = [];
-    for(let i = 1; i <= 10; i++){
-        mazo.push(i, i);
-    }
-    return mazo.sort(() => Math.random() -0.5);
+function crearMazo() {
+  const mazo = [];
+  for (let i = 1; i <= 10; i++) {
+    mazo.push(i, i);
+  }
+  return mazo.sort(() => Math.random() - 0.5);
 }
 
-function obtenerJugador(partida, socketId){
-    return Object.keys(partida.jugadores)
-        .find(k => partida.jugadores[k].id === socketId);
-}
+export function initTW(io, socket) {
+    console.log('🧠 Jugador conectado TW:', socket.id);
 
-function esSuTurno(partida, socketId){
-    return partida.turno === obtenerClaveJugador(partida, socketId);
-}
+    socket.on('join-21', () => {
+        cola.push(socket);
+        console.log('⏳ En cola:', socket.id);
 
-function terminarPartida(io, room, partida){
-    const { A, B } = partida.jugadores;
+        if (cola.length >= 2) {
+            const jugador1 = cola.shift();
+            const jugador2 = cola.shift();
 
-    let resultado;
+            const room = `tw-${jugador1.id}-${jugador2.id}`;
+            jugador1.join(room);
+            jugador2.join(room);
 
-    if(A.puntos > 21 && B.puntos > 21){
-        resultado = 'EMPATE';
-    }else if(A.puntos > 21){
-        resultado = 'B';
-    }else if(B.puntos > 21){
-        resultado = 'A';
-    }else if(A.puntos === B.puntos){
-        resultado = 'EMPATE';
-    }else{
-        resultado = A.puntos > B.puntos ? 'A' : 'B';
-    }
+            const partida = {
+                mazo: crearMazo(),
+                jugadores: {
+                    A: { id: jugador1.id, cartas: [], puntos: 0, plantado: false },
+                    B: { id: jugador2.id, cartas: [], puntos: 0, plantado: false }
+                },
+                turno: 'A',
+                finalizada: false
+            };
 
-    io.to(room).emit('fin-partida', {
-        jugadores: {
-            A: { puntos: A.puntos, cartas: A.cartas },
-            B: { puntos: B.puntos, cartas: B.cartas }
-        },
-    });
-}
+            partidas[room] = partida;
+            jugador1.room = room;
+            jugador2.room = room;
 
-function enviarEstado(io, room, partida){
-    for(const [clave, jugador] of Object.entries(parties.jugadores)){
-        io.to(jugador.id).emit('estado', {
-            tusCartas: jugador.cartas,
-            tusPuntos: jugador.puntos,
-            tuTurno: partida.turno === clave,
-            rivalPlantado: Object.values(partida.jugadores)
-                .find(j => j.id !== jugador.id).plantado
-        });
-    }
-}
-
-export function initTW(io, socket){
-    console.log('Jugador conectado (21)', socket.id);
-
-    cola.push(socket);
-
-    if(cola.length >= 2){
-        const jugador1 = cola.shift();
-        const jugador2 = cola.shift();
-
-        const room = `sala-${jugador1.id}-${jugador2.id}`;
-
-        jugador1.join(room);
-        jugador2.join(room);
-
-        jugador1.room = room;
-        jugador2.room = room;
-
-        jugador1.emit('inicio', { rival: jugador2.id });
-        jugador2.emit('inicio', { rival: jugador1.id });
-
-        console.log(`🏟️ Partida creada: ${room}`);
-
-        partidas[room] = {
-            mazo: crearMazo(),
-            jugadores: {
-                A: { id: jugador1.id, cartas: [], puntos: 0, plantado: false },
-                A: { id: jugador2.id, cartas: [], puntos: 0, plantado: false }
-            },
-            turno: 'A',
-            finalizada: false
-        };
-
-        for(let i = 0; i < 2; i++){
-            partidas[room].jugadores.A.cartas.push(partidas[room].mazo.pop());
-            partidas[room].jugadores.B.cartas.push(partidas[room].mazo.pop());
+            io.to(room).emit('inicio-partida');
+            console.log(`🏟️ Partida TW creada: ${room}`);
         }
+    });
 
-        partidas[room].jugadores.A.puntos = partidas[room].jugadores.A.cartas.reduce((a, b) => a + b, 0);
-        partidas[room].jugadores.B.puntos = partidas[room].jugadores.B.cartas.reduce((a, b) => a + b, 0);
+    socket.on('pedir-carta', () => {
+        const room = socket.room;
+        const partida = partidas[room];
+        if (!partida || partida.finalizada) return;
 
-        jugador1.emit('inicio', { letra: 'A' });
-        jugador2.emit('inicio', { letra: 'B' });
+        const jugador = partida.jugadores.A.id === socket.id ? partida.jugadores.A : partida.jugadores.B;
 
-        enviarEstado(io, room, partidas[room]);
-
-        console.log(`Partida de 21 creada: ${room}`);
-    }
-
-    socket.on('pedir-carta', () =>{
-        const partida = partidas[socket.room];
-        if(!partida || partida.finalizada) return;
-        if(!esSuTurno(partida, socket.id)) return;
-
-        const jugador = obtenerJugador(partida, socket.id);
-        
         const carta = partida.mazo.pop();
         jugador.cartas.push(carta);
         jugador.puntos += carta;
 
-        if(jugador.puntos > 21){
+        io.to(socket.id).emit('recibir-carta', {
+            carta,
+            puntos: jugador.puntos
+        });
+
+        if (jugador.puntos > 21) {
             partida.finalizada = true;
-            terminarPartida(io, socket.room, partida);
-            return;
+            io.to(room).emit('resultado', {
+                mensaje: '💥 Te pasaste de 21',
+                misPuntos: jugador.puntos,
+                puntosRival: jugador.puntos //DEVOLVER A CERO SI FALLA
+            });
         }
-        partida.turno = partida.turno === 'A' ? 'B' : 'A';
-        enviarEstado(io, socket, partida);
     });
 
-    socket.on('plantarse', () =>{
-        const partida = partidas[socket.room];
-        if(!partida || partida.finalizada) return;
+    socket.on('plantarse', () => {
+        const room = socket.room;
+        const partida = partidas[room];
+        if (!partida || partida.finalizada) return;
 
-        const jugador = obtenerJugador(partida, socket.id);
+        const jugador = partida.jugadores.A.id === socket.id ? partida.jugadores.A : partida.jugadores.B;
+
         jugador.plantado = true;
 
-        const { A, B } = partida.jugadores;
-
-        if(A.plantado && B.plantado){
-            partida.finalizada = true;
-            terminarPartida(io, socket.room, partida);
-            return;
+        if(!ambosPlantados(partida)){
+            cambiarTurno(partida);
         }
 
-        partida.turno = partida.turno === 'A' ? 'B' : 'A';
-        enviarEstado(io, socket.room, partida);
-    });
+        evaluarFin(partida, room, io);
 
-    socket.on('disconnect', () =>{
-        console.log('💀 jugador desconectado', socket.id);
-        cola = cola.filter(s => s.id !== socket.id);
-        if(socket.room && partidas[socket.room]){
-            delete partidas[socket.room];
+        function ambosPlantados(partida){
+            return(
+                partida.jugadores.A.plantado && partida.jugadores.B.plantado
+            );
         }
+
+        function evaluarFin(partida, room, io){
+            const A = partida.jugadores.A;
+            const B = partida.jugadores.B;
+
+            if(A.puntos > 21 || B.puntos > 21 || ambosPlantados(partida)){
+                partida.finalizada = true;
+
+                let mensaje;
+
+                if(A.puntos > 21){
+                    mensaje = 'A se pasó';
+                }else if(B.puntos > 21){
+                    mensaje = 'B se pasó';
+                }else if(A.puntos === B.puntos){
+                    mensaje = 'Empate';
+                }else{
+                    mensaje = A.puntos > B.puntos ? 'Gana A' : 'GANA B';
+                }
+
+                const mensajeParaA = A.puntos > B.puntos ? 'GANASTE' : A.puntos < B.puntos ? 'PERDISTE' : 'EMPATE';
+                const mensajeParaB = B.puntos > A.puntos ? 'GANASTE' : B.puntos < A.puntos ? 'PERDISTE' : 'EMPATE';
+
+                io.to(A.id).emit('resultado', {
+                    mensaje: mensajeParaA,
+                    misPuntos: A.puntos,
+                    puntosRival: B.puntos
+                });
+                io.to(B.id).emit('resultado', {
+                    mensaje: mensajeParaB,
+                    misPuntos: B.puntos,
+                    puntosRival: A.puntos
+                });
+            }
+        }
+
+        function cambiarTurno(partida){
+            partida.turno = partida.turno === 'A' ? 'B' : 'A';
+        }
+
+        socket.on('disconnect', () => {
+            console.log('💀 Desertor:', socket.id);
+            cola = cola.filter(s => s.id !== socket.id);
+            if (socket.room) delete partidas[socket.room];
+        });
     });
-};
+}

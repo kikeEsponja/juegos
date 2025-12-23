@@ -17,9 +17,10 @@ inicio.addEventListener('click', ()=>{
 const socket = io();
 const btnPedir = document.getElementById('pedir');
 const btnPlantarse = document.getElementById('plantarse');
-const zonaCartas = document.getElementById('cartas');
-const puntos = document.getElementById('puntos');
-const estado = document.getElementById('estado');
+const mazoVisual = document.getElementById('mazo');
+const zonaJugador = document.getElementById('jugador');
+const puntosDisplay = document.getElementById('puntos');
+const estadoDisplay = document.getElementById('estado');
 
 /* ****************************** FUNCIÓN QUE INICIA EL JUEGO ************************************/
 btnPedir.addEventListener('click', () =>{
@@ -29,27 +30,33 @@ btnPedir.addEventListener('click', () =>{
 
 btnPlantarse.addEventListener('click', () =>{
     socket.emit('plantarse');
-    //desactivarBotones();
+    btnPedir.disabled = true;
+    btnPlantarse.disabled = true;
 });
 
-//let cartas = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10];
-function start(){
-        comenzar.addEventListener('click', ()=>{
-        let cartasBarajadas = cartas.sort(() => Math.random() - 0.5);
+comenzar.addEventListener('click', ()=>{
+    socket.emit('join-21');
+    comenzar.disabled = true;
+    comenzar.innerText = 'Buscando partida...';
+});
 
-        for(let i = 0; i < cartasBarajadas.length; i++){
-            let ficha = document.getElementById('mazo');
-            let dato = document.createElement('div');
+socket.on('inicio-partida', () =>{
+    estadoDisplay.innerText = 'Partida iniciada';
+    zonaJugador.innerHTML = '';
+    puntosDisplay.innerText = '0';
+});
 
-            dato.classList.add('dato');
-            dato.textContent = cartasBarajadas[i];
-            dato.dataset.value = cartasBarajadas[i];
-            dato.id = i;
+socket.on('recibir-carta', (data) =>{
+    const nuevaCarta = document.createElement('div');
+    nuevaCarta.classList.add('carta');
+    nuevaCarta.textContent = data.carta;
+    zonaJugador.appendChild(nuevaCarta);
 
-            ficha.appendChild(dato);
-        }
-        comenzar.disabled = true;
-    });
-}
+    puntosDisplay.innerText = data.puntos;
+});
 
-start();
+socket.on('resultado', (data) =>{
+    alert(`${data.mensaje}\nTu puntuación: ${data.misPuntos}\nRival: ${data.puntosRival}`);
+    comenzar.disabled = false;
+    comenzar.innerText = 'jugar de nuevo';
+});

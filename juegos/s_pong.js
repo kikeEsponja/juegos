@@ -1,38 +1,47 @@
 export function initPong(io){
     const pongNamespace = io.of('/pong');
 
-    let readyPlayerCount = 0;
+    let waitingPlayer = null;
 
     pongNamespace.on('connection', (socket) =>{
-        let room;
-
         console.log('Jugador conectado a PONG', socket.id);
 
         socket.on('ready', () => {
-          room = 'room' + Math.floor(readyPlayerCount / 2);
-          socket.join(room);
+          if(waitingPlayer){
+            const room = `pong-room-${waitingPlayer.id}-${socket.id}`;
 
-          console.log('Player ready', socket.id, room);
+            waitingPlayer.join(room);
+            socket.join(room);
 
-          readyPlayerCount++;
+            waitingPlayer.room = room;
+            socket.room = room;
 
-          if (readyPlayerCount % 2 === 0) {
-            const players = Array.from(pongNamespace.adapter.rooms.get(room));
-            pongNamespace.to(room).emit('startGame', players[0]);
+            pongNamespace.to(room).emit('startGame', waitingPlayer.id);
+
+            waitingPlayer = null;
+          }else{
+            waitingPlayer = socket;
+            console.log(`jugador ${socket.id} esperando oponente...`);
           }
         });
 
         socket.on('paddleMove', (data) => {
-            socket.to(room).emit('paddleMove', data);
+            socket.to(socket.room).emit('paddleMove', data);
         });
 
         socket.on('ballMove', (data) => {
-          socket.to(room).emit('ballMove', data);
+          socket.to(socket.room).emit('ballMove', data);
         });
 
         socket.on('disconnect', (reason) => {
           console.log('usuario PONG desconectado', socket.id);
-          readyPlayerCount = Math.max(readyPlayerCount -1, 0);
+          if(waitingPlayer && waitingPlayer.id === socket.id){
+            waitingPlayer = null;
+          }
+
+          if(socket.room){
+            socket.to(socket.room).emit('opponentLeft');
+          }
         });
     });
-};
+}
