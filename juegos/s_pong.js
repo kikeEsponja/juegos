@@ -1,7 +1,9 @@
 export function initPong(io){
     const pongNamespace = io.of('/pong');
-
+    const partidas = {};
     let waitingPlayer = null;
+
+    //const room = `sala-${pongNamespace.id}-${pongNamespace.id}`;
 
     pongNamespace.on('connection', (socket) =>{
         console.log('Jugador conectado a PONG', socket.id);
@@ -9,6 +11,11 @@ export function initPong(io){
         socket.on('ready', () => {
           if(waitingPlayer){
             const room = `pong-room-${waitingPlayer.id}-${socket.id}`;
+
+            partidas[room] = {
+              score: [0, 0],
+              finalizada: false
+            }
 
             waitingPlayer.join(room);
             socket.join(room);
@@ -31,6 +38,26 @@ export function initPong(io){
 
         socket.on('ballMove', (data) => {
           socket.to(socket.room).emit('ballMove', data);
+        });
+
+        socket.on('goal', ({ scorer }) =>{
+          const room = socket.room;
+          const partida = partidas[room];
+
+          if(!partida || partida.finalizada) return;
+
+          partida.score[scorer]++;
+
+          pongNamespace.to(room).emit('scoreUpdate', partida.score);
+
+          if(partida.score[scorer] >= 10){
+            partida.finalizada = true;
+
+            pongNamespace.to(room).emit('gameOver', {
+              ganador: scorer,
+              score: partida.score
+            });
+          }
         });
 
         socket.on('disconnect', (reason) => {

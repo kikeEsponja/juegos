@@ -148,8 +148,9 @@ function ballBoundaries() {
       speedX = trajectoryX[0] * 0.3;
     } else {
       // Reset Ball, add to Computer Score
+      socket.emit('goal', { scorer: 1 });
       ballReset();
-      score[1]++;
+      //score[1]++;
     }
   }
   // Bounce off computer paddle (top)
@@ -167,20 +168,23 @@ function ballBoundaries() {
       trajectoryX[1] = ballX - (paddleX[1] + paddleDiff);
       speedX = trajectoryX[1] * 0.3;
     } else {
+      socket.emit('goal', { scorer: 0 });
       ballReset();
-      score[0]++;
+      //score[0]++;
     }
   }
 }
 
 // Called Every Frame
+let animationId;
+
 function animate() {
   if (isReferee) {
     ballMove();
     ballBoundaries();
   }
   renderCanvas();
-  window.requestAnimationFrame(animate);
+  animationId = window.requestAnimationFrame(animate);
 }
 
 // Load Game, Reset Everything
@@ -232,4 +236,15 @@ socket.on('paddleMove', (paddleData) => {
 
 socket.on('ballMove', (ballData) => {
   ({ ballX, ballY, score } = ballData);
+});
+
+socket.on('scoreUpdate', (newScore) =>{
+  score = newScore;
+});
+
+socket.on('gameOver', ({ ganador, score }) =>{
+  cancelAnimationFrame(animationId);
+  
+  alert(ganador === paddleIndex ? 'HAS GANADO' : 'HAS PERDIDO');
+  
 });
