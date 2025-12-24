@@ -38,13 +38,26 @@ function createCanvas() {
   renderCanvas();
 }
 
+const contenedorBotones = document.createElement('div');
+
 const botonSalir = document.createElement('button');
 botonSalir.textContent = 'Salir';
 botonSalir.classList.add('salir');
-document.body.appendChild(botonSalir);
+document.body.appendChild(contenedorBotones);
+contenedorBotones.appendChild(botonSalir)
 botonSalir.addEventListener('click', () =>{
     //window.location.href = 'http://localhost:3000/';
     window.location.href = 'https://juegos-l9bi.onrender.com/';
+});
+
+const botonReiniciar = document.createElement('button');
+botonReiniciar.textContent = 'Reiniciar';
+botonReiniciar.classList.add('salir');
+document.body.appendChild(contenedorBotones);
+contenedorBotones.appendChild(botonReiniciar)
+botonReiniciar.addEventListener('click', () =>{
+    //window.location.href = 'http://localhost:3000/';
+    location.reload();
 });
 
 

@@ -13,9 +13,7 @@ h1{
     font-size: 50px;
     color: #fff;
 }
-.construccion{
-    animation: 2s infinite alternate texto;
-}
+
 @keyframes texto{
     0%{
         font-size: 45px;
@@ -48,38 +46,6 @@ h1{
     height: 80%;
     margin: 2%;
 }
-.ganador{
-    display: none;
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border: 2px solid blueviolet;
-    background: radial-gradient(#0Ff, #f54c4c);
-    background-size: cover;
-    border-radius: 50%;
-    z-index: 10;
-    /*opacity: 0.6;*/
-    transition: 2s ease-out;
-}
-.ganador > img{
-    width: 100%;
-}
-.perdedor{
-    display: none;
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border: 2px solid blueviolet;
-    background: radial-gradient(#f0f, #f54c4c);
-    background-size: cover;
-    border-radius: 50%;
-    z-index: 10;
-    /*opacity: 0.6;*/
-    transition: 2s ease-out;
-}
-.perdedor > img{
-    width: 100%;
-}
 .botones, .comenzar{
     width: 120px;
     height: 40px;
@@ -89,13 +55,9 @@ h1{
     margin: 0.5%;
     cursor: pointer;
 }
-.botones:hover, .comenzar{
-    width: 125px;
-    transition: 0.5s ease;
-}
 .info{
     width: 220px;
-    height: 80px;
+    height: auto;
     border: 0.5px solid black;
     text-align: start;
     background: white;
@@ -105,48 +67,7 @@ h1{
     -webkit-user-select: none;
     user-select: none;
 }
-.ficha{
-    width: 150px;
-    height: 150px;
-    background: white;
-    border-radius: 5px;
-    margin: 1%;
-}
-.ficha > img{
-    width: 100%;
-}
-.dato{
-    position: absolute;
-    background: #0Ff;
-    color: transparent;
-    width: 145px;
-    height: 145px;
-    font-size: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    transform: rotateY(180deg);
-    transition: transform 0.5s;
-}
-.invisible{
-    opacity:0;
-}
-.ficha > img:hover{
-    background: aquamarine;
-    cursor: pointer;
-    color: transparent;
-    width: 101%;
-    height: 101%;
-}
-.descubierta{
-    width: 100%;
-    height: 100%;
-    background: #e4ff98;
-    color: red;
-    font-size: 50px;
-    transform: rotateY(0deg);
-}
+
 /* Contenedor principal del modal */
 .modal {
   position: fixed;
@@ -220,20 +141,6 @@ h1{
   justify-content: flex-end;
   padding: 0.75rem;
   border-top: 1px solid #dee2e6;
-}
-.bonus-pop{
-    position: absolute;
-    top: 5%;
-    left: 20%;
-    transform: translate(-50%, -50%) scale(0.5);
-    font-size: 3rem;
-    font-weight: bold;
-    color: #ffea00;
-    opacity: 0;
-    text-shadow: 0 0 10px #ff0, 0 0 20px #ffa500;
-    pointer-events: none;
-    transition: transform 1s ease-out, opacity 1.2s ease-out;
-    z-index: 9999;
 }
 @media(max-width: 990px){
     .contenedor-ficha, .ficha{

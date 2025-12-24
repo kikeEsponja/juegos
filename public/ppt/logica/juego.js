@@ -30,9 +30,6 @@ let intervalo = null;
 let habilitado = true;
 //let cartas = CONFIG.cantidadDeCartas;
 
-//********************************************************************************** */
-let juego = document.getElementById('carcasa'); //captura de "div" contenedor del tablero de juego
-
 /* ****************************** FUNCIÓN PARA ANIMACIÓN DE PUNTOS ************************************/
 function mostrarBonus(cantidad){
     const bonus = document.createElement('div');
@@ -53,22 +50,40 @@ function mostrarBonus(cantidad){
 
 /* ****************************** FUNCIÓN QUE INICIA EL JUEGO ************************************/
 const botones = document.querySelectorAll('button[data-jugada]');
-const socket = io('/ppt'); // DEJA EL PARÉNTESIS VACÍO SI DEJA DE FUNCIONAR
+const socket = io(); // DEJA EL PARÉNTESIS VACÍO SI DEJA DE FUNCIONAR
 let yaJugo = false;
 
 socket.on('resultado', (data) =>{
     console.log('resultado', data);
 
-    alert(`Tú: ${data.tuJugada}\n` + `Rival: ${data.rival}\n\n` + `${data.resultado}`);
+    //alert(`Tú: ${data.tuJugada}\n` + `Rival: ${data.rival}\n\n` + `${data.resultado}`);
+    let resultado = document.getElementById('resultado');
+    let tu = document.getElementById('tu');
+    let rival = document.getElementById('rival');
+    resultado.textContent = data.resultado;
+    if(data.resultado === 'GANASTE'){
+        resultado.style.color = '#0f0';
+        let puntaje = document.getElementById('puntos');
+        puntaje.textContent = PUNTOS_POR_ACIERTO;
+        ganador();
+    }else{
+        resultado.style.color = '#f00';
+        perdiste();
+    }
+    rival.textContent = 'Rival: '+data.rival;
+    tu.textContent = 'Tú: '+data.tuJugada;
 
-    alert(data.resultado);
+    let eleccion = document.getElementById('movimiento');
+    eleccion.textContent = data.tuJugada;
+
+    //alert(data.resultado);
 
     yaJugo = false;
     botones.forEach(b => b.disabled = false);
 });
 
 socket.on('inicio', ({ rival }) =>{
-    console.log('tu rival es: ', rival);
+    console.log('tu rival es: ', rival.id);
     comenzar.disabled = true;
     comenzar.innerText = 'En una partida...';
     botones.forEach(b => b.disabled = false);
@@ -126,204 +141,17 @@ start(); // INICIA EL JUEGO
     actualizarPantalla();
     })();
 
-//FUNCIÓN PARA CONTROLAR EL MOVIMIENTO DE LAS CARTAS
-function handleCardClick(e){
-    let card = e.currentTarget;
-
-    if(bloqueoMesa) return;
-    if(card === primeraCarta) return;
-
-    card.classList.add('descubierta');
-    card.classList.remove('invisible');
-
-    if(!primeraCarta){
-        primeraCarta = card;
-        return;
-    }
-
-    segundaCarta = card;
-
-    validarCoincidencia();
-}
-
-// FUNCIÓN PARA LA DISMINUCIÓN DE LOS MOVIMIENTOS DISPONIBLES
-/*function muevelo(){
-    if(habilitado){
-        movimientos--;
-        let textoMovimientos = document.getElementById('movimientos');
-        textoMovimientos.textContent = movimientos;
-        if(movimientos === 0){
-            perdiste();
-        }
-    }
-}*/
-
-/*function dejaloAsi(){
-    habilitado = false;
-}*/
-
-// FUNCIÓN QUE VALIDA LA COINCIDENCIA DE LOS VALORES DE LAS CARTAS
-/*function validarCoincidencia(){
-    let coincide = primeraCarta.dataset.value === segundaCarta.dataset.value;
-
-    if(coincide){
-        inhabilitarCartas();
-    }else{
-        cubrirCartas();
-    }
-}*/
-
-//CONTADOR DE ACIERTOS
-let aciertos = 0;
-function inhabilitarCartas(){
-    primeraCarta.removeEventListener('click', handleCardClick);
-    segundaCarta.removeEventListener('click', handleCardClick);
-    
-    let textoAciertos = document.getElementById('aciertos');
-    aciertos++;
-    textoAciertos.textContent = aciertos;
-
-    let puntaje = document.getElementById('puntos');
-    puntos += PUNTOS_POR_ACIERTO;
-    puntaje.textContent = puntos;
-    
-    sonidoAcierto.currentTime = 0;
-    sonidoAcierto.play();
-
-    mostrarBonus(PUNTOS_POR_ACIERTO);
-
-    if(aciertos == 1){
-        ganador();
-        dejaloAsi();
-    }
-
-    reiniciar();
-}
-
-//FUNCIÓN PARA CUBRIR EL PA DE CARTAS QUE NO COINCIDEN
-/*function cubrirCartas(){
-    bloqueoMesa = true;
-
-    setTimeout(() =>{
-        primeraCarta.classList.remove('descubierta');
-        segundaCarta.classList.remove('descubierta');
-        primeraCarta.classList.add('invisible');
-        segundaCarta.classList.add('invisible');
-
-        reiniciar();
-    }, 1000);
-}*/
-
-// FUNCIÓN PARA REINICIAR LOS VALORES INICIALES
-/*function reiniciar(){
-    [primeraCarta, segundaCarta, bloqueoMesa] = [null, null, false];
-}*/
-
-/*function clickSostenido(e){
-    tocarCarta(e.currentTarget);
-}*/
-
 // FUNCIÓN PARA MOSTRAR OBJETIVO LOGRADO
 function ganador(){
-    let contenedor = document.createElement('div');
-    //let aceptar = document.createElement('button');
-    let ganador = document.createElement('h1');
-    let information = document.getElementById('information');
-    let emoji = document.getElementById('ganador');
-    //let textoNivelSiguiente = CONFIG.textoNivelSiguiente
-    //NIVEL SIGUIENTE
-    information.appendChild(contenedor);
-    contenedor.appendChild(ganador);
-    //contenedor.appendChild(aceptar);
-
-    /*if(textoNivelSiguiente === 'Nivel 11'){
-        setTimeout(() => {
-            window.location.href = '../vistas/memoria11.html';
-        }, 3000);
-    }else{
-        let nivelSiguiente = document.createElement('button');
-        nivelSiguiente.textContent = CONFIG.textoNivelSiguiente;
-        nivelSiguiente.classList.add('botones');
-        nivelSiguiente.addEventListener('click', () =>{
-            window.location.href = CONFIG.urlNivelSiguiente;
-        });
-        contenedor.appendChild(nivelSiguiente);
-    }*/
-
-    //Bucle para dejar las fichas descubiertas
-    /*for(let i = 0; i < CONFIG.cantidadDeCartas.length; i++){
-        let fichaFija = document.querySelector('.ficha');
-        fichaFija.classList.remove('ficha');
-    }*/
-
-    /*aceptar.addEventListener('click', ()=>{
-        location.reload();
-    });*/
-
-    ganador.textContent = 'Has Ganado!';
-    ganador.style.color = '#ff0';
-    //aceptar.textContent = 'Vamos de nuevo!';
-    //aceptar.classList.add('botones');
-
-    // Sumar puntos por tiempo (no existe en niveles 1 y 2)
-    //let bonus = segundos * 10;
-    //puntos += bonus;
-
-    let puntaje = document.getElementById('puntos');
-    puntaje.textContent = puntos;
-
-    if(intervalo !== null){
-        clearInterval(intervalo);
-        intervalo = null;
-    }
-
-    emoji.style.display = 'block';
-    emoji.style.opacity = '0';
-    emoji.style.transition = 'opacity 2s ease';
-
     sonidoGanador.currentTime = 0;
     setTimeout(() => {
         sonidoGanador.play();
     }, 1000);
-
-    setTimeout(() =>{
-        emoji.style.opacity = '1';
-    }, 50);
-
 }
 
 // FUNCIÓN PARA MOSTRAR OBJETIVO NO LOGRADO
 function perdiste(){
-    let contenedor = document.createElement('div');
-    //let aceptar = document.createElement('button');
-    let perdedor = document.createElement('h1');
-    let information = document.getElementById('information');
-    let emojiLost = document.getElementById('perdedor');
 
-    /*for(let i = 0; i < CONFIG.cantidadDeCartas.length; i++){
-        let fichaFija = document.querySelector('.ficha');
-        fichaFija.classList.remove('ficha');
-    }*/
-
-    /*aceptar.addEventListener('click', ()=>{
-        location.reload();
-    });*/
-
-    perdedor.textContent = 'Has Perdido!';
-    perdedor.style.color = '#f60';
-    //aceptar.classList.add('botones');
-    //aceptar.textContent = 'Vamos de nuevo!';
-
-    information.appendChild(contenedor);
-    contenedor.appendChild(perdedor);
-    //contenedor.appendChild(aceptar);
-    emojiLost.style.display = 'block';
-    emojiLost.style.opacity = '0';
-    emojiLost.style.transition = 'opacity 2s ease';
     sonidoPerder.currentTime = 0;
     sonidoPerder.play();
-
-    setTimeout(() =>{
-        emojiLost.style.opacity = '1';
-    }, 50);
 }

@@ -14,13 +14,24 @@
             background: white;
             border-radius: 5px;
             margin: 1%;
+            color:blue;
+            font-size: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .voz{
-            width: 150px;
-            height: 50px;
-            background: #c53d3d;
-            border-radius: 5px;
-            margin: 1%;
+        .carta.animar-entrada{
+            animation: deslizarCarta 0.4s ease-out forwards;
+        }
+        @keyframes deslizarCarta{
+            from{
+                transform: translateY(-40px) scale(0.9);
+                opacity: 0;
+            }
+            to{
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
         }
         .tw_carcasa{
             display: flex;
@@ -54,9 +65,8 @@
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Instrucciones</h1>
                     </div>
                     <div class="modal-body">
-                        <h2>EN CONSTRUCCIÓN</h2>
+                        <h4>Pide cartas, el que se acerca más a 21 gana, el que se pasa, pierde. Así de sencillo.</h4>
                         <!--<h3>Acierta con 21 puntos o llega más cerca que tu rival.</h3>-->
-                        <!--<h3>Toca el botón "comenzar"</h3>-->
                         <h2>Suerte! 😎</h2>
                     </div>
                     <div class="modal-footer">
@@ -78,6 +88,7 @@
                     <p>MAZO</p>
                 </div>
                 <br>
+                <h2 id="instruc">Toca el botón "comenzar"</h2>
                 <hr>
                 <div>
                     <div class="jugador" id="jugador"></div>
@@ -94,14 +105,19 @@
             </div>
             <div class="information" id="information">
                 <div class="info">
-                    <h4>Esperando oponente: <span id="estado"></span></h4>
+                    <h6>Esperando oponente: <span id="estado"></span></h6>
                 </div>
                 <div class="info">
-                    <h4>Resultado: <span id="resultado"></span></h4>
+                    <h6>Resultado:</h6>
+                    <p id="resultado"></p>
+                    <p id="tu"></p>
+                    <p id="rival"></p>
                 </div>
-                <div class="info">
-                    <h4>Selecciona una opción: <span id="movimiento"></span></h4>
-                </div>
+                <!--<div class="info">
+                    <h6>Selecciona una opción: <span id="movimiento"></span></h6>
+                </div>-->
+            </div>
+            <div>
                 <button id="comenzar" class="comenzar" data-bs-toggle="modal" data-bs-target="#exampleModal">Comenzar</button>
                 <button id="repetir" class="botones">Reiniciar</button>
                 <button id="inicio" class="botones">Inicio</button>

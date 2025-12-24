@@ -54,13 +54,13 @@ export function initPPT(io, socket){
             io.to(j1).emit('resultado', {
                 tuJugada: e1,
                 rival: e2,
-                resultado: r === 1 ? 'GANASTE' : r === 0 ? 'EMPATE' : 'PERDISTESSS'
+                resultado: r === 1 ? 'GANASTE' : r === 0 ? 'EMPATE' : 'PERDISTE'
             });
 
             io.to(j2).emit('resultado', {
                 tuJugada: e2,
                 rival: e1,
-                resultado: r === 2 ? 'GANASTE' : r === 0 ? 'EMPATE' : 'PERDISTESSS'
+                resultado: r === 2 ? 'GANASTE' : r === 0 ? 'EMPATE' : 'PERDISTE'
             });
 
             partida.jugadas = {};

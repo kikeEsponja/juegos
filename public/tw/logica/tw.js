@@ -38,6 +38,8 @@ comenzar.addEventListener('click', ()=>{
     socket.emit('join-21');
     comenzar.disabled = true;
     comenzar.innerText = 'Buscando partida...';
+    let instruc = document.getElementById('instruc');
+    instruc.textContent = '';
     start();
 });
 
@@ -48,14 +50,15 @@ function start(){
         puntosDisplay.innerText = '0';
         btnPedir.disabled = false;
         btnPlantarse.disabled = false;
-        comenzar.innerText = 'En una partida'
+        comenzar.innerText = 'En una partida';
     });
 }
 
 socket.on('recibir-carta', (data) =>{
     const nuevaCarta = document.createElement('div');
-    nuevaCarta.classList.add('carta');
+    nuevaCarta.classList.add('carta', 'animar-entrada');
     nuevaCarta.textContent = data.carta;
+    //nuevaCarta.style.color = '#f00';
     zonaJugador.appendChild(nuevaCarta);
 
     puntosDisplay.innerText = data.puntos;
@@ -63,6 +66,12 @@ socket.on('recibir-carta', (data) =>{
 
 socket.on('resultado', (data) =>{
     alert(`${data.mensaje}\nTu puntuación: ${data.misPuntos}\nRival: ${data.puntosRival}`);
+    let tu = document.getElementById('tu');
+    let rival = document.getElementById('rival');
+    let resultado = document.getElementById('resultado');
+    tu.textContent = 'Tú: '+data.misPuntos;
+    rival.textContent = 'Rival: '+data.puntosRival;
+    resultado.textContent = data.mensaje;
     comenzar.disabled = false;
     comenzar.innerText = 'jugar de nuevo';
 });
