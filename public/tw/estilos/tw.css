@@ -48,7 +48,7 @@ h1{
 }
 .botones, .comenzar{
     width: 120px;
-    height: 40px;
+    height: auto;
     border-radius: 5px;
     background: #198754;
     color: #fff;
@@ -172,7 +172,6 @@ h1{
 @media(max-width: 560px){
     .info{
         width: 110px;
-        height: 70px;
     }
 }
 @media(max-width: 466px){
