@@ -47,11 +47,40 @@
             margin: 2%;
         }
         .jugador{
+            width: 100%;
             display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .btn{
             width: 150px;
             height: 40px;
+        }
+        @media(max-width: 990px){
+            .carta{
+                width: 120px;
+                height: 120px;
+            }
+        }
+        @media(max-width: 825px){
+            .carta{
+                width: 100px;
+                height: 100px;
+            }
+        }
+        @media(max-width: 415px){
+            .carta{
+                width: 80px;
+                height: 80px;
+                font-size: 50px;
+            }
+        }
+        @media(max-width: 370px){
+            .carta{
+                width: 60px;
+                height: 60px;
+                font-size: 40px;
+            }
         }
     </style>
 </head>
@@ -90,16 +119,14 @@
                 <br>
                 <h2 id="instruc">Toca el botón "comenzar"</h2>
                 <hr>
-                <div>
-                    <div class="jugador" id="jugador"></div>
-                    <h2>Jugador: </h2>
-                    <div>
-                        <button class="btn btn-primary" id="pedir">Pedir</button>
-                        <button class="btn btn-warning" id="plantarse">Plantarse</button>
-                    </div>
-                </div>
 
-            
+                <div class="jugador" id="jugador">
+                </div>
+                <h2>Jugador: </h2>
+                <div>
+                    <button class="btn btn-primary" id="pedir">Pedir</button>
+                    <button class="btn btn-warning" id="plantarse">Plantarse</button>
+                </div>
                 <!--<div id="ganador" class="ganador"><img src="assets/imagenes/emoji-nerd-svgrepo-com.svg" alt="ganador"></div>-->
                 <!--<div id="perdedor" class="perdedor"><img src="assets/imagenes/emoji-sick-svgrepo-com.svg" alt="perdedor"></div>-->
             </div>
